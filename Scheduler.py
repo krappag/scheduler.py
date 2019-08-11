@@ -10,50 +10,42 @@ class Doctor:
         return "Hi, this is Dr. {a}".format(a=self.name)
 
     def add_patient(self, patient):
-        if len(self.number_of_patient) < 4:
-            self.number_of_patient.append(patient)
-        else:
-            return "Dr. {a} has no more appointment for today".format(a=self.name)
+        for dates in self.availability:
+            if len(self.number_of_patient) < 4:
+                self.number_of_patient.append(patient)
+                pring(dates)
+            else:
+                print("Dr. {a} has no more appointment for today".format(a=self.name))
 
-    def remove_patient(self):
+    def remove_patient(self, patient):
+        for dates in self.availability:
+            if len(self.number_of_patient) == 0 and self.availability[dates]:
+                print("There is no patient left")
+            else:
+                self.number_of_patient.remove(patient.name)
 
-        if len(self.number_of_patient) == 0 and self.availability[dates]:
-            return "There is no patient left"
-        else:
-            self.number_of_patient.pop(-1)
+    def add_days(self, *dates):
+        self.availability.append(dates)
 
-    def add_days(self, date):
-        self.availability.append(date)
-
-    def remove_days(self, date):
-        for num in range(len(self.availability)):
-            if date == self.availability[num]:
+    def remove_days(self, *date):
+        for num in range(len(self.availability[1])):
+            if date == self.availability:
                 self.availability.remove(date)
 
-    def print_list_of_patient(self):
-        print("Dr. {a} patient's list:\n".format(a=self.name))
-        for names in range(len(self.number_of_patient)):
-            print(self.number_of_patient[names])
+    def print_list_of_patient(self, date):
+        print("Dr. {a} patient's list for {b}:\n".format(a=self.name, b=date))
 
 
 
 class Patient:
 
-    def __init__(self, name, sickness):
+    def __init__(self, name, sickness, date_of_appointment):
         self.name = name
         self.sickness = sickness
+        self.date = date_of_appointment
 
     def __str__(self):
         return "Name: {a}\n Sickness: {b}\n\n".format(a=self.name, b=self.sickness)
-
-
-class Calendar:
-
-    def __init__(self, date):
-        self.date = date
-
-    def __str__(self):
-        return "You have appointment on {a}".format(a=self.date)
 
 
 def set_up_appointment(doctor, patient):
@@ -64,6 +56,7 @@ def set_up_appointment(doctor, patient):
     :return:
     """
     doctor.add_patient(patient)
+
 
 def cancel_an_appointment(doctor, patient):
     """
@@ -76,18 +69,14 @@ def cancel_an_appointment(doctor, patient):
         if patient.name == doctor.number_of_patient[names].name:
             doctor.remove_patient()
 
-anthony = Doctor('Anthony')
-bob = Patient('Bob', 'Flu')
-anilla = Patient ('Anilla', 'Pink Eye')
-sharon = Patient ('Sharon', 'Too Cute')
-phil = Patient('Phil', 'Flu')
-andrew = Patient('Andrew', 'Flu')
-jace = Patient('jace', 'too fat')
-set_up_appointment(anthony, sharon)
-set_up_appointment(anthony, bob)
-set_up_appointment(anthony, anilla)
-set_up_appointment(anthony, andrew)
-set_up_appointment(anthony, phil)
-set_up_appointment(anthony, jace)
-anthony.print_list_of_patient()
 
+anthony = Doctor('Anthony')
+bob = Patient('Bob', 'Flu', '18 August')
+anilla = Patient ('Anilla', 'Pink Eye', '6 August')
+sharon = Patient ('Sharon', 'Too Cute', '7 August')
+phil = Patient('Phil', 'Flu', '10 August')
+andrew = Patient('Andrew', 'Flu', '11 August')
+jace = Patient('Jace', 'too fat', '10 August')
+anthony.add_days('7 August', '8 August', '9 August', '10 August')
+print(dates for dates in anthony.availability)
+anthony.print_list_of_patient('7 August')
